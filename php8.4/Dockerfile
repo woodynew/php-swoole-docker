@@ -4,6 +4,8 @@ FROM phpswoole/swoole:php8.4-alpine
 ARG COMPOSER_VERSION="2.8.4"
 ARG COMPOSER_SUM="c4c4e2e1beab0ea04e0bd042a5dbba9feda1fbf5eda0d36203958edd343c0a8a"
 
+ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
 # Install dependencies
 RUN set -eux \
     && apk add --no-cache \

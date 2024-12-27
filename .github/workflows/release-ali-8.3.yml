@@ -57,7 +57,7 @@ jobs:
           provenance: false
           context: .
           platforms: ${{ matrix.arch }}
-          file: php8.3-grpc/Dockerfile
+          file: php8.3/Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
 
   docker-manifest:

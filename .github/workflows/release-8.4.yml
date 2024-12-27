@@ -1,4 +1,4 @@
-name: release-8.4
+name: release-ali-8.4
 on:
   push:
     tags:
@@ -34,7 +34,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: woodynew/phpswoole
+          images: registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole
           flavor: |
             latest=true
           tags: |
@@ -46,8 +46,9 @@ jobs:
         name: Login to DockerHub
         uses: docker/login-action@v3 
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ${{ secrets.ALI_DOCKERHUB_REGISTRY }}
+          username: ${{ secrets.ALI_DOCKERHUB_USERNAME }}
+          password: ${{ secrets.ALI_DOCKERHUB_TOKEN }}
       -
         name: Build and push
         uses: docker/build-push-action@v5
@@ -74,47 +75,48 @@ jobs:
         name: Login to DockerHub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ${{ secrets.ALI_DOCKERHUB_REGISTRY }}
+          username: ${{ secrets.ALI_DOCKERHUB_USERNAME }}
+          password: ${{ secrets.ALI_DOCKERHUB_TOKEN }}
       -
         name: Push semver minor alias
         run: |
           docker manifest create \
-            woodynew/phpswoole:$SEMVER_MINOR \
-              --amend woodynew/phpswoole:$SEMVER_MINOR-amd64 \
-              --amend woodynew/phpswoole:$SEMVER_MINOR-ppc64le \
-              --amend woodynew/phpswoole:$SEMVER_MINOR-arm64
-          docker manifest push woodynew/phpswoole:$SEMVER_MINOR
+            registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MINOR \
+              --amend registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MINOR-amd64 \
+              --amend registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MINOR-ppc64le \
+              --amend registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MINOR-arm64
+          docker manifest push registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MINOR
       -
         name: Push latest (PHP 8.4 or newer)
         run: |
           docker manifest create \
-            woodynew/phpswoole:latest \
-              --amend woodynew/phpswoole:$SEMVER_MINOR-amd64 \
-              --amend woodynew/phpswoole:$SEMVER_MINOR-ppc64le \
-              --amend woodynew/phpswoole:$SEMVER_MINOR-arm64
-          docker manifest push woodynew/phpswoole:latest
+            registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:latest \
+              --amend registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MINOR-amd64 \
+              --amend registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MINOR-ppc64le \
+              --amend registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MINOR-arm64
+          docker manifest push registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:latest
       -
         name: Pull all images
         run: |
-          docker pull woodynew/phpswoole:$SEMVER_MINOR-amd64
-          docker pull woodynew/phpswoole:$SEMVER_MINOR-ppc64le
-          docker pull woodynew/phpswoole:$SEMVER_MINOR-arm64
+          docker pull registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MINOR-amd64
+          docker pull registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MINOR-ppc64le
+          docker pull registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MINOR-arm64
       -
         name: Push semver alias
         run: |
           docker manifest create \
-            woodynew/phpswoole:$SEMVER \
-              --amend woodynew/phpswoole:$SEMVER_MINOR-amd64 \
-              --amend woodynew/phpswoole:$SEMVER_MINOR-ppc64le \
-              --amend woodynew/phpswoole:$SEMVER_MINOR-arm64
-          docker manifest push woodynew/phpswoole:$SEMVER
+            registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER \
+              --amend registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MINOR-amd64 \
+              --amend registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MINOR-ppc64le \
+              --amend registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MINOR-arm64
+          docker manifest push registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER
       -
         name: Push semver major alias (PHP 8.4 or newer)
         run: |
           docker manifest create \
-            woodynew/phpswoole:$SEMVER_MAJOR \
-              --amend woodynew/phpswoole:$SEMVER_MINOR-amd64 \
-              --amend woodynew/phpswoole:$SEMVER_MINOR-ppc64le \
-              --amend woodynew/phpswoole:$SEMVER_MINOR-arm64
-          docker manifest push woodynew/phpswoole:$SEMVER_MAJOR
+            registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MAJOR \
+              --amend registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MINOR-amd64 \
+              --amend registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MINOR-ppc64le \
+              --amend registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MINOR-arm64
+          docker manifest push registry.cn-hangzhou.aliyuncs.com/woodynew/phpswoole:$SEMVER_MAJOR

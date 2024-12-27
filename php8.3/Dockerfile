@@ -82,7 +82,8 @@ RUN install-php-extensions \
     zip \
     zlib \
     zstd \
-    xlswriter
+    xlswriter \
+    grpc
 
 # Install Composer
 RUN set -eux \
